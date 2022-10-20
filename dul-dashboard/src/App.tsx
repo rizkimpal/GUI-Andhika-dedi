@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   ChakraProvider,
   Box,
@@ -8,9 +8,9 @@ import {
   Code,
   Grid,
   theme,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+} from "@chakra-ui/react";
+import { ColorModeSwitcher } from "./ColorModeSwitcher";
+import { Logo } from "./Logo";
 
 export const App = () => (
   <ChakraProvider theme={theme}>
@@ -20,19 +20,27 @@ export const App = () => (
         <VStack spacing={8}>
           <Logo h="40vmin" pointerEvents="none" />
           <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
+            koe <Code fontSize="xl">ASUUU</Code>
           </Text>
           <Link
             color="teal.500"
-            href="https://chakra-ui.com"
+            href="https://www.youtube.com/watch?v=BvkDFX8K5LE&t=685s"
             fontSize="2xl"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn Chakra
+            Video Pembelajaran recording
+          </Link>
+          <Link
+          color="teal.500"
+          href="https://www.youtube.com/watch?v=7D3kXabIUoM&t=470s"
+          fontSize="3xl"
+          target="_blank"
+          rel="noopener noreferrer">
+            Video Plotly scienfic graphic
           </Link>
         </VStack>
       </Grid>
     </Box>
   </ChakraProvider>
-)
+);
