@@ -1,1 +1,1 @@
-import {  } from "module";
+export { default as HomePage } from './HomePage'

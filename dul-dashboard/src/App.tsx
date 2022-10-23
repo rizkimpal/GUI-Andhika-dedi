@@ -1,46 +1,10 @@
 import * as React from "react";
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from "@chakra-ui/react";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
-import { Logo } from "./Logo";
-
+import { AppHeader } from "./AppHeader";
+import { HomePage } from "HomePage";
+import { ChakraProvider, theme } from "@chakra-ui/react";
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            koe <Code fontSize="xl">ASUUU</Code>
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://www.youtube.com/watch?v=BvkDFX8K5LE&t=685s"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Video Pembelajaran recording
-          </Link>
-          <Link
-          color="teal.500"
-          href="https://www.youtube.com/watch?v=7D3kXabIUoM&t=470s"
-          fontSize="3xl"
-          target="_blank"
-          rel="noopener noreferrer">
-            Video Plotly scienfic graphic
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
+    <AppHeader />
+    <HomePage />
   </ChakraProvider>
 );
