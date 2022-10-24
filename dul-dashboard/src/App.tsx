@@ -1,11 +1,16 @@
 import React from "react";
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PageOne from "./pages/PageOne";
 
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline font-serif">test pejuhhh</h1>
-    </>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<PageOne />} />
+      <Route path="/asuu" element={<PageOne />} />
+    </Routes>
+    </BrowserRouter>
   );
 }
 
