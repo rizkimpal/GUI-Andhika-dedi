@@ -1,10 +1,12 @@
-import * as React from "react";
-import { AppHeader } from "./AppHeader";
-import { HomePage } from "HomePage";
-import { ChakraProvider, theme } from "@chakra-ui/react";
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <AppHeader />
-    <HomePage />
-  </ChakraProvider>
-);
+import React from "react";
+import "./App.css";
+
+function App() {
+  return (
+    <>
+      <h1 className="text-3xl font-bold underline font-serif">test pejuhhh</h1>
+    </>
+  );
+}
+
+export default App;
