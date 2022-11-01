@@ -2,7 +2,7 @@ import React from "react";
 
 import { useReactMediaRecorder } from "react-media-recorder";
 
-const Recoder = () => {
+const Recoder2 = () => {
   const {status, startRecording, stopRecording, mediaBlobUrl} = useReactMediaRecorder({audio: true})
 
   return (
@@ -10,7 +10,7 @@ const Recoder = () => {
       <div className=" ">
         <div className="flex text-2xl">
           {" "}
-          Mic dekat Status
+          Mic Jauh Status
           <p>: {status}</p>
         </div>
         <button
@@ -31,4 +31,4 @@ const Recoder = () => {
   );
 };
 
-export default Recoder;
+export default Recoder2;
