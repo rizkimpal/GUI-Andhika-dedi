@@ -40,7 +40,7 @@ import React, { useState, useEffect } from "react";
       <div>
         <button onClick={handleClick} className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 mx-2 rounded">{buttonName}</button>
         <div className="mt-5">
-        <input type="file" onChange={addFile} />
+        <input type="file" onChange={addFile} className="" />
         <audio src={audio} controls className="" />
         </div>
       </div>
