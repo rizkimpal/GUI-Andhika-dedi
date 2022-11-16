@@ -1,9 +1,17 @@
 import React from "react";
 import Recoder from "../utils/Recoder";
 import Recoder2 from "../utils/Recorder2";
-import UploadFile from "../utils/UploadFile";
-
+import Uploadfile from "../utils/UploadFile";
+import axios from "axios";
 const MainMenu = () => {
+  async function saved() {
+    try {
+      const response = await axios.get("http://localhost:8000/done");
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  }
   return (
     <div className="grid bg-violet-50 w-screen">
       <div className="grid justify-items-center">
@@ -23,11 +31,16 @@ const MainMenu = () => {
           <Recoder2 />
         </div>
         <div className="grid text-xs mt-10">
-          <UploadFile />
+          <Uploadfile />
         </div>
       </div>
       <div className="grid justify-items-center items-center">
-        <button className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 rounded">
+        <button
+          className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 rounded"
+          onClick={() => {
+            saved();
+          }}
+        >
           Selesai!
         </button>
       </div>

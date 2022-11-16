@@ -1,29 +1,54 @@
-from fastapi import FastAPI, File, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import contextlib
 import threading
 import time
+import numpy as np
+import shutil as sh
+import os
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 from datetime import datetime, timedelta, timezone
+from typing import List
 from lib2to3.pytree import Base
-import numpy as np
+from scipy.io import wavfile
+from audio import *
 
 app = FastAPI()
 
 HOST_API = "localhost"
 PORT_API = 8000
 
+path = r'D:\app\PROJECT DULLOH\GUI-Andhika-dedi\FastAPI Server'
+aud1 = []
 
 @app.get("/ ")
 def read_root():
     return {"Hello World"}
 
 @app.post("/upload")
-def save(file: UploadFile = File(...)):
-    audio_bytes = file.file.read()
-    signal, sr = sf.read(io.BytesIO(audio_bytes))
-    return f'{sr}'
+async def save(file: UploadFile = File(...)):
+        contents = file.file.read()
+        with open(f'{file.filename}', 'wb') as buffer:
+            temp = buffer.write(contents)
+        aud1.append(temp)
+        return {
+    print("successfully file", aud1)}
+
+@app.get("/done")
+async def save():
+    MJ_BG = r"voice2.wav"
+    MD_BG = r"voice.wav"
+    
+    sr_MJ_BG, MJ_BG = read_audio(MJ_BG)
+    sr_noise, MD_BG = read_audio(MD_BG)
+    MJ_BG = MJ_BG.astype(float)
+    MD_BG = generate_noise_sample(MD_BG, 2)
+
+    output_BG = noise_red(MJ_BG, MD_BG, fft_size = 4096, iterations = 3)
+    # file = wavfile.write("BG Penulisan.wav", 44100, output_BG.astype(np.int16))
+
+    return {print("data telah diolah, bentar ya")}
 
 app.add_middleware(
     CORSMiddleware,

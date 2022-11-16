@@ -1,26 +1,33 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
+import React from "react";
 import axios from "axios";
-import React, { useState } from "react";
-
 import { useReactMediaRecorder } from "react-media-recorder";
+import FormData from "form-data";
 
 const Recoder = () => {
   const { status, startRecording, stopRecording, mediaBlobUrl } =
     useReactMediaRecorder({ audio: true });
-  const [ audio, setAudio ] = useState<any | null>(null);
 
-const Uploadfile = () => {
-  let file = mediaBlobUrl
-  axios.post('http://localhost:8000/upload', {
-    file,
-  } ).then(function (res) {
-    console.log(res)
-  }).catch(function(e) {
-    console.error(e)
-  })
-  setAudio(mediaBlobUrl)
-  
-}
+  const handleSave = async (file: string | undefined) => {
+    const audioBlob = await fetch(file!).then((r) => r.blob());
+    const audioFile = new File([audioBlob], "voice.wav", { type: "audio/wav" });
+    const formData = new FormData(); // preparing to send to the server
+
+    formData.append("file", audioFile); // preparing to send to the server
+    axios
+      .post("http://localhost:8000/upload", formData, {
+        headers: formData.getHeaders
+          ? formData.getHeaders()
+          : { "Content-Type": "multipart/form-data" },
+      })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
 
   return (
     <div className=" w-fit h-fit bg-slate-100 grid mt-3">
@@ -31,19 +38,28 @@ const Uploadfile = () => {
           <p>: {status}</p>
         </div>
         <button
-          onClick={startRecording}
+          onClick={() => {
+            let start = startRecording;
+            start();
+          }}
           className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 mx-2 rounded"
         >
           Start Recording
         </button>
         <button
-          onClick={stopRecording}
+          onClick={() => {
+            let stop = stopRecording;
+            stop();
+          }}
           className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 rounded"
         >
           Stop Recording
         </button>
         <button
-          onClick={Uploadfile}
+          onClick={() => {
+            let buffer = mediaBlobUrl;
+            handleSave(buffer);
+          }}
           className="bg-purple-900 text-white hover:bg-blue-400 font-bold py-2 px-4 mt-3 rounded"
         >
           Upload
@@ -55,3 +71,4 @@ const Uploadfile = () => {
 };
 
 export default Recoder;
+
