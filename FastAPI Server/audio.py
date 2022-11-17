@@ -29,8 +29,8 @@ def read_audio(path):
         audio = audio[:,1]
     return samprate_audio, audio
 
-def generate_noise_sample(noise, length):
-    MD = noise[:sr_noise*length]
+def generate_noise_sample(noise,srnoise, length):
+    MD = noise[:srnoise*length]
     MD = np.asarray(MD, dtype=float)
     return MD
   
@@ -106,13 +106,13 @@ def removeNoise(MJ, MD, n_grad_freq=2, n_grad_time=4, n_fft=4096, win_length=409
     recovered_STFT = librosa.stft(recovered_signal, n_fft, hop_length, win_length, window='hann')
     recovered_abs = np.abs(recovered_STFT)
     recovered_spec = librosa.core.amplitude_to_db(recovered_abs, ref=1.0, amin=1e-20, top_db=80.0)
-    if verbose: print('Signal recovery:', td(seconds=time.time()-start));
-    if visual: plot_spectrogram(MD_stft_db, title='Mic Dekat')
-    if visual: plot_statistics_and_filter(mean_MD, std_MD, th, smoothing_filter)
-    if visual: plot_spectrogram(MJ_stft_db, title='Mic Jauh')
-    if visual: plot_spectrogram(MJ_mask, title='Penerapan Mask')
-    if visual: plot_spectrogram(MJ_stft_db_masked, title='Masked signal')
-    if visual: plot_spectrogram(recovered_spec, title='Recovered spectrogram')
+    # if verbose: print('Signal recovery:', td(seconds=time.time()-start));
+    # if visual: plot_spectrogram(MD_stft_db, title='Mic Dekat')
+    # if visual: plot_statistics_and_filter(mean_MD, std_MD, th, smoothing_filter)
+    # if visual: plot_spectrogram(MJ_stft_db, title='Mic Jauh')
+    # if visual: plot_spectrogram(MJ_mask, title='Penerapan Mask')
+    # if visual: plot_spectrogram(MJ_stft_db_masked, title='Masked signal')
+    # if visual: plot_spectrogram(recovered_spec, title='Recovered spectrogram')
     return recovered_signal
 
 def noise_red(MJ, MD, prop_decrease = 0.5, verbose = False, visual = False, fft_size = 4096, iterations = 2):

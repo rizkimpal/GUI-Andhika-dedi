@@ -1,5 +1,4 @@
 import React from 'react'
-import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
 
 const Trypage = () => {
   return (

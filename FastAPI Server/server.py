@@ -43,12 +43,12 @@ async def save():
     sr_MJ_BG, MJ_BG = read_audio(MJ_BG)
     sr_noise, MD_BG = read_audio(MD_BG)
     MJ_BG = MJ_BG.astype(float)
-    MD_BG = generate_noise_sample(MD_BG, 2)
+    MD_BG = generate_noise_sample(MD_BG,sr_noise, 2)
 
     output_BG = noise_red(MJ_BG, MD_BG, fft_size = 4096, iterations = 3)
-    # file = wavfile.write("BG Penulisan.wav", 44100, output_BG.astype(np.int16))
+    file = wavfile.write("BG Penulisan.wav", 44100, output_BG.astype(np.int16))
 
-    return {print("data telah diolah, bentar ya")}
+    return {print(file)}
 
 app.add_middleware(
     CORSMiddleware,
