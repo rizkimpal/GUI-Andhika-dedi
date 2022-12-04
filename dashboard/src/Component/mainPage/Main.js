@@ -1,12 +1,12 @@
+/* eslint-disable no-restricted-globals */
 import React from "react";
-import Recorder from "../Utils/Recorder";
-import Recorder2 from "../Utils/Recorder2";
 import Uploadfile from "../Utils/UploadFile";
 import axios from "axios";
 const MainMenu = () => {
   async function saved() {
+    const files = {'BG Penulisan':("BG Penulisan.wav", open("BG Penulisan.wav",'rb'))}
     try {
-      const response = await axios.get("http://localhost:8000/done");
+      const response = await axios.get("http://localhost:8000/done" ,files);
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -28,8 +28,6 @@ const MainMenu = () => {
             Upload file
           </button>
           <div className="grid text-xs mt-10">
-            <Recorder />
-            <Recorder2 />
           </div>
           <div className="grid text-xs mt-10">
             <Uploadfile />

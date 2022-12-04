@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const Trypage = () => {
   return (
-    <div>Trypage</div>
-  )
-}
+    <>
+      <div>Trypage</div>
+    </>
+  );
+};
 
-export default Trypage
+export default Trypage;

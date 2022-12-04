@@ -12,7 +12,7 @@ import time
 from datetime import timedelta as td
 from spectrum import *
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter, AutoMinorLocator)
-
+from audio import *
 
 def get_parameters(path):
     with contextlib.closing(wave.open(path, 'rb')) as wf:
