@@ -1,19 +1,24 @@
 /* eslint-disable no-restricted-globals */
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Selesai() {
+  let navigate = useNavigate();
 
-  const saved = async() => {
-    const files = {
-      "BG Penulisan": ("BG Penulisan.wav", open("BG Penulisan.wav", "rb")),
-    };
+  const saved = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/done", files);
+      const response = await axios.get("http://localhost:8000/done");
       console.log(response);
+
+      const routeChange = () => {
+        let path = `/Image`;
+        navigate(path);
+      };
+      routeChange()
     } catch (error) {
       console.error(error);
     }
-  }
+  };
   return (
     <>
       <div className="flex justify-center items-center">

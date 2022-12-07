@@ -3,7 +3,7 @@ import axios from "axios";
 import FormData from "form-data";
 
 var a;
-const Uploadfile2 = () => {
+const FileJauh = () => {
   const [buttonName, setButtonName] = useState("Play");
   const [audio, setAudio] = useState(null);
 
@@ -37,8 +37,8 @@ const Uploadfile2 = () => {
     }
   };
   const handleSave = async () => {
-    const audioBlob = await fetch(this.state.sample.url).then((r) => r.blob());
-    const audioFile = new File([audioBlob], "voice.wav", { type: "audio/wav" });
+    const audioBlob = await fetch(audio).then((r) => r.blob());
+    const audioFile = new File([audioBlob], "voiceJauh.wav", { type: "audio/wav" });
     const formData = new FormData(); // preparing to send to the server
 
     formData.append("file", audioFile); // preparing to send to the server
@@ -97,4 +97,4 @@ const Uploadfile2 = () => {
     </>
   );
 };
-export default Uploadfile2;
+export default FileJauh;

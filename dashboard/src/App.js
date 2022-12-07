@@ -3,17 +3,23 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LeftPage from "./Component/mainPage/LeftPage";
 import RightPage from "./Component/mainPage/RightPage";
-import TryMain from "./Component/mainPage/TryMain";
+// const MainPage = React.lazy(() => import("./pages/MainPage"));
+// const ImagePage = React.lazy(() => import("./pages/ImagePage"));
+import MainPage from "./pages/MainPage";
+import ImagePage from "./pages/ImagePage";
 
 function App() {
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<TryMain />} />
-      <Route path="/nabila" element={<RightPage />} />
-      <Route path="/coba" element={<LeftPage />} />
-    </Routes>
-    </BrowserRouter>
+    <>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/right" element={<RightPage />} />
+            <Route path="/left" element={<LeftPage />} />
+            <Route path="/image" element={<ImagePage />} />
+          </Routes>
+        </BrowserRouter>
+    </>
   );
 }
 

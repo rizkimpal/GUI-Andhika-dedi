@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-
 import AudioReactRecorder, { RecordState } from "audio-react-recorder";
 import axios from "axios";
 import FormData from "form-data";
 
-export default class Record extends Component {
+export default class RecordJauh extends Component {
   constructor(props) {
     super(props);
 
@@ -35,7 +34,7 @@ export default class Record extends Component {
   };
   handleSave = async () => {
     const audioBlob = await fetch(this.state.sample.url).then((r) => r.blob());
-    const audioFile = new File([audioBlob], "voice.wav", { type: "audio/wav" });
+    const audioFile = new File([audioBlob], "voiceJauh.wav", { type: "audio/wav" });
     const formData = new FormData(); // preparing to send to the server
 
     formData.append("file", audioFile); // preparing to send to the server
@@ -100,7 +99,6 @@ export default class Record extends Component {
             </div>
           </div>
         </div>
-
       </>
     );
   }

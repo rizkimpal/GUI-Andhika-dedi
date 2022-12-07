@@ -7,20 +7,12 @@ import shutil as sh
 import os
 import scipy.signal
 import IPython
-from fastapi import FastAPI, File, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime
-from datetime import datetime, timezone
-from datetime import timedelta as td
-from typing import List
-from scipy.io import wavfile
-import scipy.signal
-import contextlib
 import sys
 import wave
 import matplotlib.pyplot as plt
-import librosa
-import librosa.display
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+from scipy.io import wavfile
 from spectrum import *
 from matplotlib.ticker import (
     MultipleLocator, FormatStrFormatter, AutoMinorLocator)
@@ -31,9 +23,25 @@ app = FastAPI()
 HOST_API = "localhost"
 PORT_API = 8000
 
-path = r'D:\app\PROJECT DULLOH\GUI-Andhika-dedi\FastAPI Server'
+path = r'D:\app\PROJECT DULLOH\GUI-Andhika-dedi\dashboard\src\asset'
 aud1 = []
+sample = 0
 
+def getBGaudio():
+    MJ_BG = r"voiceDekat.wav"
+    MD_BG = r"voiceJauh.wav"
+    global sample
+    sample = sample + 1
+    sr_MJ_BG, MJ_BG = read_audio(MJ_BG)
+    sr_noise, MD_BG = read_audio(MD_BG)
+    MJ_BG = MJ_BG.astype(float)
+    MD_BG = generate_noise_sample(MD_BG, sr_noise, 2)
+
+    output_BG = noise_red(MJ_BG, MD_BG, fft_size=4096, iterations=3)
+    db = wavfile.write(
+        f'New Audio {sample}.wav', 44100, output_BG.astype(np.int16))
+    return{print(f'terbuat Audio baru no: {sample}')
+    }
 
 @app.get("/ ")
 def read_root():
@@ -52,34 +60,28 @@ async def save(file: UploadFile = File(...)):
 
 @app.get("/done")
 async def save():
-    MJ_BG = r"voice2.wav"
-    MD_BG = r"voice.wav"
-
-    sr_MJ_BG, MJ_BG = read_audio(MJ_BG)
-    sr_noise, MD_BG = read_audio(MD_BG)
-    MJ_BG = MJ_BG.astype(float)
-    MD_BG = generate_noise_sample(MD_BG, sr_noise, 2)
-
-    output_BG = noise_red(MJ_BG, MD_BG, fft_size=4096, iterations=3)
-    db = wavfile.write("BG Penulisan.wav", 44100, output_BG.astype(np.int16))
-    AudioName2 = "BG Penulisan.wav"  # Audio File
-    fs2, data2 = wavfile.read(AudioName2)
+    getBGaudio()
     convertFromPSD = 10**(-77/20)
-    dB2 = data2*convertFromPSD
+    x = 1
+    sinyal = []
+    fig, ax = plt.subplots(figsize=(20,8))
+    while(x <= sample):
+        AudioName = f"New Audio {x}.wav"  # Audio File
+        fs, data = wavfile.read(AudioName)
+        convertFromPSD = 10**(-70.5/20)
+        dB = data*convertFromPSD
+        sinyal.append(WelchPeriodogram(dB, NFFT=2048, sampling=fs,
+                               label=f"sample{x}"))
+        x += 1
 
-    fig, ax = plt.subplots(figsize=(20, 8))
-
-    sinyal1 = WelchPeriodogram(dB2, NFFT=2048, sampling=fs2,
-                               label="Stainless Steel", color="Orange")
-
-    plt.ylabel('dB', size=17, font="Times New Roman")
+    plt.ylabel('dB', size="24", font="Times New Roman")
     plt.xlim(2500, 8000)
     plt.xlabel('Frekuensi (Hz)', size=17, font="Times New Roman")
     ax.xaxis.set_major_locator(MultipleLocator(200))
     ax.yaxis.set_major_locator(MultipleLocator(5))
     ax.set_title('Analisis Frekuensi', size=24, font="Times New Roman")
     ax.legend(fontsize=18)
-    plt.show()
+    plt.savefig(f'{path}\pfft.png')
     return{
         print("successfully done from bg penulisan")
     }
