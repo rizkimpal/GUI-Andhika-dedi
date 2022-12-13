@@ -3,30 +3,27 @@ import contextlib
 import threading
 import time
 import numpy as np
-import shutil as sh
-import os
-import scipy.signal
-import IPython
-import sys
-import wave
 import matplotlib.pyplot as plt
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from scipy.io import wavfile
 from spectrum import *
 from matplotlib.ticker import (
     MultipleLocator, FormatStrFormatter, AutoMinorLocator)
 from audio import *
 
-app = FastAPI()
+#inisiasi fastApi
+app = FastAPI() 
 
+#menambahkan host dan port
 HOST_API = "localhost"
 PORT_API = 8000
 
+#variable tambahan
 path = r'D:\app\PROJECT DULLOH\GUI-Andhika-dedi\dashboard\src\asset'
 aud1 = []
 sample = 0
 
+#fungsi mendapatkan audio baru 
 def getBGaudio():
     MJ_BG = r"voiceDekat.wav"
     MD_BG = r"voiceJauh.wav"
@@ -43,14 +40,15 @@ def getBGaudio():
     return{print(f'terbuat Audio baru no: {sample}')
     }
 
+#testing FastApi
 @app.get("/ ")
 def read_root():
     return {"Hello World"}
 
-
+#membuat api upload file
 @app.post("/upload")
 async def save(file: UploadFile = File(...)):
-    contents = file.file.read()
+    contents = file.file.read() #read data dari 
     with open(f'{file.filename}', 'wb') as buffer:
         temp = buffer.write(contents)
     aud1.append(temp)
@@ -76,7 +74,7 @@ async def save():
 
     plt.ylabel('dB', size="24", font="Times New Roman")
     plt.xlim(2500, 8000)
-    plt.xlabel('Frekuensi (Hz)', size=17, font="Times New Roman")
+    plt.xlabel('Frekuensi (Hz)', size=24, font="Times New Roman")
     ax.xaxis.set_major_locator(MultipleLocator(200))
     ax.yaxis.set_major_locator(MultipleLocator(5))
     ax.set_title('Analisis Frekuensi', size=24, font="Times New Roman")

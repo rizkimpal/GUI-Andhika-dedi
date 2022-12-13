@@ -3,10 +3,9 @@ import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LeftPage from "./Component/mainPage/LeftPage";
 import RightPage from "./Component/mainPage/RightPage";
-// const MainPage = React.lazy(() => import("./pages/MainPage"));
-// const ImagePage = React.lazy(() => import("./pages/ImagePage"));
-import MainPage from "./pages/MainPage";
-import ImagePage from "./pages/ImagePage";
+
+const MainPage = React.lazy(() => import("./pages/MainPage"));
+const ImagePage = React.lazy(() => import("./pages/ImagePage"));
 
 function App() {
   return (

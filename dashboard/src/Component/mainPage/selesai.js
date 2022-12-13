@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import React from 'React'
 
 export default function Selesai() {
   let navigate = useNavigate();

@@ -2,7 +2,6 @@ import IPython
 from scipy.io import wavfile
 import scipy.signal
 import contextlib
-import sys
 import wave
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,7 +11,6 @@ import time
 from datetime import timedelta as td
 from spectrum import *
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter, AutoMinorLocator)
-from audio import *
 
 def get_parameters(path):
     with contextlib.closing(wave.open(path, 'rb')) as wf:

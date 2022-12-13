@@ -7,14 +7,15 @@ import Selesai from "../Component/mainPage/selesai";
 function MainPage() {
   const [show1, setShow1] = useState(false); //State live record
   const [show2, setShow2] = useState(false); //state Upload File
+  const [selesai, setSelesai] = useState(false);
 
   const click1 = () => {
     setShow1(!show1);
-    console.log(show1);
+    setSelesai(!selesai);
   };
   const click2 = () => {
     setShow2(!show2);
-    console.log(show2);
+    setSelesai(!selesai);
   };
 
   return (
@@ -29,7 +30,7 @@ function MainPage() {
           {show1 && <LeftPage />}
           {show2 && <RightPage />}
         </div>
-        <div className="w-full p-5">{<Selesai />}</div>
+        <div className="w-full p-5">{selesai && <Selesai />}</div>
       </div>
     </>
   );

@@ -34,7 +34,9 @@ export default class RecordJauh extends Component {
   };
   handleSave = async () => {
     const audioBlob = await fetch(this.state.sample.url).then((r) => r.blob());
-    const audioFile = new File([audioBlob], "voiceJauh.wav", { type: "audio/wav" });
+    const audioFile = new File([audioBlob], "voiceJauh.wav", {
+      type: "audio/wav",
+    });
     const formData = new FormData(); // preparing to send to the server
 
     formData.append("file", audioFile); // preparing to send to the server
@@ -90,11 +92,15 @@ export default class RecordJauh extends Component {
                   id="audio"
                   src={this.state.sample ? this.state.sample.url : null}
                   controls
-                  className=""
                 />
               </div>
               <div className="flex justify-center items-center w-full h-[20%]">
-                <AudioReactRecorder state={recordState} onStop={this.onStop} />
+                <AudioReactRecorder
+                  state={recordState}
+                  onStop={this.onStop}
+                  canvasWidth="300"
+                  canvasHeight="150"
+                />
               </div>
             </div>
           </div>

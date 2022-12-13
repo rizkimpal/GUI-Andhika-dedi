@@ -24,6 +24,19 @@ export default class RecordDekat extends Component {
       recordState: RecordState.STOP,
     });
   };
+  Record = async () => {
+    const delay = ms => new Promise(
+      resolve => setTimeout(resolve, ms)
+    )
+    this.setState({
+      recordState: RecordState.START,
+    })
+    await delay(16000);
+
+    this.setState({
+      recordState: RecordState.STOP,
+    })
+  }
 
   //audioData contains blob and blobUrl
   onStop = (audioData) => {
@@ -34,7 +47,9 @@ export default class RecordDekat extends Component {
   };
   handleSave = async () => {
     const audioBlob = await fetch(this.state.sample.url).then((r) => r.blob());
-    const audioFile = new File([audioBlob], "voiceDekat.wav", { type: "audio/wav" });
+    const audioFile = new File([audioBlob], "voiceDekat.wav", {
+      type: "audio/wav",
+    });
     const formData = new FormData(); // preparing to send to the server
 
     formData.append("file", audioFile); // preparing to send to the server
@@ -58,13 +73,13 @@ export default class RecordDekat extends Component {
       <>
         <div className="flex justify-center items-center bg-slate-200 md:w-[48%] md:h-[95%] w-[95%] h-[48%] rounded-md">
           <div className="w-[90%] h-full md:h-[85%]">
-            <div className="flex flex-col justify-evenly w-full h-full">
+            <div className="flex flex-col justify-evenly gap-2 w-full h-full">
               <div className="flex justify-evenly items-center h-[20%]">
                 <button
                   type="button"
                   className="text-white bg-gradient-to-r from-slate-500 to-slate-600 hover:bg-gradient-to-bl font-medium rounded-lg text-sm 
                               px-5 py-2.5 text-center border-2 border-white"
-                  onClick={this.start}
+                  onClick={this.Record}
                 >
                   Start
                 </button>
@@ -94,12 +109,16 @@ export default class RecordDekat extends Component {
                 />
               </div>
               <div className="flex justify-center items-center w-full h-[20%]">
-                <AudioReactRecorder state={recordState} onStop={this.onStop} />
+                <AudioReactRecorder
+                  state={recordState}
+                  onStop={this.onStop}
+                  canvasWidth="300"
+                  canvasHeight="150"
+                />
               </div>
             </div>
           </div>
         </div>
-
       </>
     );
   }
