@@ -10,6 +10,7 @@ export default class RecordDekat extends Component {
     this.state = {
       recordState: null,
       sample: null,
+      status: "",
     };
   }
 
@@ -101,6 +102,7 @@ export default class RecordDekat extends Component {
                 </button>
               </div>
               <div className="flex justify-center items-center w-full h-[20%]">
+                <p className="flex justify center "></p>
                 <audio
                   id="audio"
                   src={this.state.sample ? this.state.sample.url : null}

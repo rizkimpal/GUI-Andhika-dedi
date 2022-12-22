@@ -4,12 +4,18 @@ import threading
 import time
 import numpy as np
 import matplotlib.pyplot as plt
+
+from pydantic import BaseModel
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from spectrum import *
 from matplotlib.ticker import (
     MultipleLocator, FormatStrFormatter, AutoMinorLocator)
 from audio import *
+
+#json untuk menyimpan nama sample 
+class saveName(BaseModel):
+    sample: str
 
 #inisiasi fastApi
 app = FastAPI() 
@@ -25,16 +31,41 @@ sample = 0
 
 #fungsi mendapatkan audio baru 
 def getBGaudio():
+
     MJ_BG = r"voiceDekat.wav"
     MD_BG = r"voiceJauh.wav"
+    # file_BG = r"voiceDekat.wav"
+    # MD_objek = r"voiceJauh.wav"
+    # MJ_objek = r"voiceDekat.wav"
+    # file_objek = r"voiceJauh.wav"
+
     global sample
     sample = sample + 1
+
     sr_MJ_BG, MJ_BG = read_audio(MJ_BG)
     sr_noise, MD_BG = read_audio(MD_BG)
+
     MJ_BG = MJ_BG.astype(float)
     MD_BG = generate_noise_sample(MD_BG, sr_noise, 2)
 
     output_BG = noise_red(MJ_BG, MD_BG, fft_size=4096, iterations=3)
+
+    # sr_MJ, MJ_objek = read_audio(MJ_objek)
+    # sr_noise, MD_objek = read_audio(MD_objek)
+
+    # MJ_objek = MJ_objek.astype(float)
+    # MD_objek = generate_noise_sample(MD_objek, 2)
+
+    # output_objek = noise_red(MJ_objek, MD_objek, fft_size=4096, iterations=3)
+
+    # sr_objek, objek = read_audio(file_objek)
+    # sr_noise, BG = read_audio(file_BG)
+
+    # objek = MJ_objek.astype(float)
+    # noise = generate_noise_sample(BG, 2)
+
+    # output_final = noise_red(objek, noise, fft_size=4096, iterations=3)
+
     db = wavfile.write(
         f'New Audio {sample}.wav', 44100, output_BG.astype(np.int16))
     return{print(f'terbuat Audio baru no: {sample}')
@@ -56,8 +87,9 @@ async def save(file: UploadFile = File(...)):
         print("successfully file", aud1)}
 
 
-@app.get("/done")
-async def save():
+@app.post("/done")
+async def save(Name: saveName):
+    print(Name)
     getBGaudio()
     convertFromPSD = 10**(-77/20)
     x = 1
@@ -69,7 +101,7 @@ async def save():
         convertFromPSD = 10**(-70.5/20)
         dB = data*convertFromPSD
         sinyal.append(WelchPeriodogram(dB, NFFT=2048, sampling=fs,
-                               label=f"sample{x}"))
+                               label=f"{Name.sample}"))
         x += 1
 
     plt.ylabel('dB', size="24", font="Times New Roman")
@@ -77,7 +109,7 @@ async def save():
     plt.xlabel('Frekuensi (Hz)', size=24, font="Times New Roman")
     ax.xaxis.set_major_locator(MultipleLocator(200))
     ax.yaxis.set_major_locator(MultipleLocator(5))
-    ax.set_title('Analisis Frekuensi', size=24, font="Times New Roman")
+    ax.set_title('Analisis Frekuensi', size=72, font="Times New Roman")
     ax.legend(fontsize=18)
     plt.savefig(f'{path}\pfft.png')
     return{

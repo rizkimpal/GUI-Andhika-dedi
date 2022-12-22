@@ -30,7 +30,7 @@ function MainPage() {
           {show1 && <LeftPage />}
           {show2 && <RightPage />}
         </div>
-        <div className="w-full p-5">{selesai && <Selesai />}</div>
+        <div className="w-full p-5 bg-[#cec9b3]">{selesai && <Selesai />}</div>
       </div>
     </>
   );

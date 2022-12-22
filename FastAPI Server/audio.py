@@ -27,7 +27,7 @@ def read_audio(path):
         audio = audio[:,1]
     return samprate_audio, audio
 
-def generate_noise_sample(noise,srnoise, length):
+def generate_noise_sample(noise, length):
     MD = noise[:srnoise*length]
     MD = np.asarray(MD, dtype=float)
     return MD
