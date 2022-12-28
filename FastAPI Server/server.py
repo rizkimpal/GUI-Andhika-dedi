@@ -28,6 +28,7 @@ PORT_API = 8000
 path = r'D:\app\PROJECT DULLOH\GUI-Andhika-dedi\dashboard\src\asset'
 aud1 = []
 sample = 0
+name = ""
 
 #fungsi mendapatkan audio baru 
 def getBGaudio():
@@ -46,7 +47,7 @@ def getBGaudio():
     sr_noise, MD_BG = read_audio(MD_BG)
 
     MJ_BG = MJ_BG.astype(float)
-    MD_BG = generate_noise_sample(MD_BG, sr_noise, 2)
+    MD_BG = generate_noise_sample(MD_BG,sr_noise, 2)
 
     output_BG = noise_red(MJ_BG, MD_BG, fft_size=4096, iterations=3)
 
@@ -68,7 +69,7 @@ def getBGaudio():
 
     db = wavfile.write(
         f'New Audio {sample}.wav', 44100, output_BG.astype(np.int16))
-    return{print(f'terbuat Audio baru no: {sample}')
+    return{print(f'terbuat Audio baru dengan nama: {name}')
     }
 
 #testing FastApi
@@ -89,6 +90,8 @@ async def save(file: UploadFile = File(...)):
 
 @app.post("/done")
 async def save(Name: saveName):
+    global name
+    name = Name.sample
     print(Name)
     getBGaudio()
     convertFromPSD = 10**(-77/20)
@@ -113,7 +116,7 @@ async def save(Name: saveName):
     ax.legend(fontsize=18)
     plt.savefig(f'{path}\pfft.png')
     return{
-        print("successfully done from bg penulisan")
+        print(f"successfully done from make {Name.sample}")
     }
 
 app.add_middleware(
